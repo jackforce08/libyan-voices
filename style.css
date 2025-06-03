@@ -1,1 +1,48 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background: #f8f8f8;
+}
+
+h1, h2 {
+  color: #333;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+input, textarea {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+button {
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.post {
+  background: #fff;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 6px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.reply {
+  margin-left: 15px;
+  background: #f0f0f0;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 4px;
+}
+
+.note {
+  font-size: 0.9em;
+  color: darkred;
+}
 
