@@ -99,17 +99,56 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function displayPosts(posts) {
-    postsContainer.innerHTML = "";
-    posts.forEach((post) => {
-      const div = document.createElement("div");
-      div.className = "post";
-      div.innerHTML = `
-        <h3>${post.title}</h3>
-        <p>${post.message}</p>
-        <small>By ${post.username} • ${post.time}</small>
-        <hr>
-      `;
-      postsContainer.appendChild(div);
+  postsContainer.innerHTML = "";
+
+  posts.forEach((post, postIndex) => {
+    const div = document.createElement("div");
+    div.className = "post";
+    div.innerHTML = `
+      <h3>${post.title}</h3>
+      <p>${post.message}</p>
+      <small>By ${post.username} • ${post.time}</small>
+
+      <div class="replies">
+        <h4>Replies:</h4>
+        <div class="reply-list">
+          ${(post.replies || []).map(reply => `
+            <div class="reply">
+              <p>${reply.text}</p>
+              <small>— ${reply.username} at ${reply.time}</small>
+            </div>
+          `).join('')}
+        </div>
+        <form class="replyForm" data-index="${postIndex}">
+          <input type="text" class="replyInput" placeholder="Write a reply..." required>
+          <button type="submit">Reply</button>
+        </form>
+      </div>
+      <hr>
+    `;
+    postsContainer.appendChild(div);
+  });
+
+  // Add event listeners for all reply forms
+  document.querySelectorAll(".replyForm").forEach(form => {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const index = form.getAttribute("data-index");
+      const input = form.querySelector(".replyInput");
+      const replyText = input.value.trim();
+      const username = sessionStorage.getItem("username");
+      const time = new Date().toLocaleString();
+
+      if (!replyText) return;
+
+      const posts = JSON.parse(localStorage.getItem("lv_posts")) || [];
+      if (!posts[index].replies) posts[index].replies = [];
+
+      posts[index].replies.unshift({ username, text: replyText, time });
+      localStorage.setItem("lv_posts", JSON.stringify(posts));
+
+      input.value = "";
+      displayPosts(posts);
     });
-  }
-});
+  });
+}
