@@ -35,4 +35,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+// Forum page logic
+document.addEventListener("DOMContentLoaded", () => {
+  const welcomeMsg = document.getElementById("welcomeMsg");
+  const logoutBtn = document.getElementById("logoutBtn");
 
+  if (welcomeMsg && logoutBtn) {
+    const loggedIn = sessionStorage.getItem("loggedIn");
+    const username = sessionStorage.getItem("username");
+
+    if (!loggedIn || !username) {
+      alert("Please log in first.");
+      window.location.href = "login.html";
+      return;
+    }
+
+    welcomeMsg.textContent = `Welcome, ${username}!`;
+
+    logoutBtn.addEventListener("click", () => {
+      sessionStorage.clear();
+      window.location.href = "login.html";
+    });
+  }
+});
