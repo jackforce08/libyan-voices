@@ -13,8 +13,17 @@
   </header>
 
   <main>
-    <p>This is where forum posts will go.</p>
-  </main>
+  <h2>Create a New Post</h2>
+  <form id="postForm">
+    <input type="text" id="postTitle" placeholder="Post Title" required>
+    <textarea id="postMessage" placeholder="Write your message..." required></textarea>
+    <button type="submit">Post</button>
+  </form>
+
+  <h2>All Posts</h2>
+  <div id="postsContainer"></div>
+</main>
+
 
   <script src="script.js"></script>
 </body>
