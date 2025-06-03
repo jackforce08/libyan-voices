@@ -58,3 +58,58 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+// Forum post handling
+document.addEventListener("DOMContentLoaded", () => {
+  const postForm = document.getElementById("postForm");
+  const postTitle = document.getElementById("postTitle");
+  const postMessage = document.getElementById("postMessage");
+  const postsContainer = document.getElementById("postsContainer");
+
+  // Load existing posts
+  if (postsContainer) {
+    const posts = JSON.parse(localStorage.getItem("lv_posts")) || [];
+    displayPosts(posts);
+  }
+
+  // Handle new post
+  if (postForm) {
+    postForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const title = postTitle.value.trim();
+      const message = postMessage.value.trim();
+      const username = sessionStorage.getItem("username");
+
+      if (!title || !message) return;
+
+      const newPost = {
+        title,
+        message,
+        username,
+        time: new Date().toLocaleString(),
+      };
+
+      const posts = JSON.parse(localStorage.getItem("lv_posts")) || [];
+      posts.unshift(newPost);
+      localStorage.setItem("lv_posts", JSON.stringify(posts));
+
+      postTitle.value = "";
+      postMessage.value = "";
+      displayPosts(posts);
+    });
+  }
+
+  function displayPosts(posts) {
+    postsContainer.innerHTML = "";
+    posts.forEach((post) => {
+      const div = document.createElement("div");
+      div.className = "post";
+      div.innerHTML = `
+        <h3>${post.title}</h3>
+        <p>${post.message}</p>
+        <small>By ${post.username} • ${post.time}</small>
+        <hr>
+      `;
+      postsContainer.appendChild(div);
+    });
+  }
+});
